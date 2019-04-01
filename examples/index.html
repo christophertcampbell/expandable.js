@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Animated Height Transitions</title>
+	<style>
+		.expandable {
+			height: 0;
+			overflow: hidden;
+			transition: width 1s ease-in-out, opacity 2s ease-in-out;
+		}
+
+		.expandable.expanded {
+			height: auto;
+		}
+
+		#example1 {
+			background-color: #ccc;
+		}
+
+		#example2 {
+			background-color: lightgreen;
+		}
+
+		#example3 {
+			background-color: lightcoral;
+		}
+	</style>
+</head>
+<body>
+	<button id="toggle1">Toggle 1</button>
+	<button id="toggle2">Toggle 2</button>
+	<button id="toggle3">Toggle 3</button>
+	<button id="toggle-all">Toggle All</button>
+	<button id="expand-all">Expand All</button>
+	<button id="collapse-all">Collapse All</button>
+	<div id="example1" class="expandable">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+	</div>
+	<div id="example2" class="expandable">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+	</div>
+	<div id="example3" class="expandable">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus lectus sed urna maximus, non euismod ante venenatis. Cras ultricies arcu non mattis vulputate. Donec sit amet interdum lorem, ut vestibulum magna.</p>
+	</div>
+	<script src="../dist/expandable.js"></script>
+	<script>
+
+		// var config = {
+		// 	classOnCollapsed: "collapsed",
+		// 	classOnExpanded: "expanded"
+		// };
+
+		var config = Expandable.getNewConfig();
+		config.classOnCollapsed = "collapsed";
+		config.classOnExpanded = "expanded";
+
+		Expandable.registerToggle("#toggle1", "#example1", config);
+		Expandable.registerToggle("#toggle2", "#example2", config);
+		Expandable.registerToggle("#toggle3", "#example3", config);
+		Expandable.registerToggle("#toggle-all", ".expandable", config);
+		Expandable.registerExpander("#expand-all", ".expandable", config);
+		Expandable.registerCollapser("#collapse-all", ".expandable", config);
+	
+	</script>
+</body>
+</html>
