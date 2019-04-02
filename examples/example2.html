@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Animated Height Transitions - To Bottom of Parent</title>
+	<style>
+		.child {
+			position: absolute;
+			top: 0;
+			left: 0;
+			transition: height 200ms ease-in-out, bottom 200ms ease-in-out;
+			height: 0;
+			overflow: hidden;
+		}
+
+		.child1 {
+			background-color: #ccc;
+			width: 200px;
+			transition: height 300ms ease-in-out, bottom 300ms ease-in-out;
+			top: 35px;
+		}
+
+		.child2 {
+			background-color: lightgreen;
+			top: 35px;
+		}
+
+		.expanded {
+			bottom: 0;
+			height: auto;
+		}
+
+		.child2-parent {
+			background-color: #333;
+			position: absolute;
+			height: 400px;
+			top: 30px;
+			left: 200px;
+			width: 250px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<button id="toggle-all">Toggle All</button>
+		<button id="expand-all">Expand All</button>
+		<button id="collapse-all">Collapse All</button>
+	</div>
+	<div class="child child1">
+		This is a test of a div contained only by the body
+	</div>
+	<div class="child2-parent">
+		<div class="child child2">
+			This is a test of a div contained inside a positioned parent
+		</div>
+	</div>
+	<script src="../dist/expandable.js"></script>
+	<script>
+		var config = {
+			classOnExpanded: "expanded",
+			classOnCollapsed: "collapsed",
+			expandToBottomOfParent: true
+		}
+
+		Expandable.registerToggle("#toggle-all", ".child", config);
+		Expandable.registerExpander("#expand-all", ".child", config);
+		Expandable.registerCollapser("#collapse-all", ".child", config);
+	</script>
+</body>
+</html>
