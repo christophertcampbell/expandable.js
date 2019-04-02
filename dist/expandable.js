@@ -19,7 +19,8 @@
 		function getNewConfig() {
 			return {
 				classOnCollapsed: "",
-				classOnExpanded: ""
+				classOnExpanded: "",
+				expandToBottomOfParent: false
 			}
 		}
 
@@ -171,29 +172,46 @@
 			// Add an identifying class during the transition
 			element.classList.add("expanding");
 			element.classList.remove("collapsing");
-
-			// get the height of the element's inner content, regardless of its actual size
-			var sectionHeight = element.scrollHeight;
-
-			addTemporaryTransitionIfNecessary(element);
 			
-			// have the element transition to the height of its inner content
-			element.style.height = sectionHeight + 'px';
+			addTemporaryTransitionIfNecessary(element);
+
+			if (config && config.expandToBottomOfParent) {
+				// Transition the element to the bottom of its nearest positioned parent (ancestor)
+				// Match the specific height now, and when the transition is done, transition to "bottom: 0"
+				// Intended to work with elements which are positioned absolute
+				var parent = getNearestPositionedAncestor(element);
+				var parentHeight = parent.nodeName === "BODY" ? window.innerHeight : parent.clientHeight;
+				var heightToTransitionTo = (parentHeight - element.offsetTop) + "px";
+				element.style.height = heightToTransitionTo;
+			} else {
+				// Transition the element to the natural (auto) height of its inner content
+				// Match the specific height now, and when the transition is done, transition to "height: auto"
+				var heightToTransitionTo = element.scrollHeight;
+				element.style.height = heightToTransitionTo + 'px';
+			}
+
 
 			// when the next css transition finishes (which should be the one we just triggered)
 			element.addEventListener('transitionend', function(e) {
 				// remove this event listener so it only gets triggered once
 				element.removeEventListener('transitionend', arguments.callee);
 				element.classList.remove("expanding");
+
 				if (config && config.classOnExpanded) {
 					// Add the specified class and remove the manual height setting
-					// Assumes the element's classOnExpanded will handle applying auto height
+					// Assumes the element's classOnExpanded will handle applying auto height or pinning to bottom
 					element.classList.add(config.classOnExpanded);
 					element.style.height = null;
+				} else if (config && config.expandToBottomOfParent) {
+					// Transition from fixed height to "bottom: 0"
+					// TODO - Only do this if element is not positioned "static"
+					element.style.bottom = "0";
+					element.style.height = undefined;
 				} else {
 					// Transition from fixed height to auto height
 					element.style.height = "auto";
 				}
+
 				if (config && config.classOnCollapsed) {
 					element.classList.remove(config.classOnCollapsed);
 				}
@@ -241,6 +259,21 @@
 
 			element.style.transition = element.style.originalTransition;
 			delete(element.style.originalTransition);
+		}
+
+		/**
+		 * Returns the nearest ancestor which is positioned other than "static"
+		 * 
+		 * Returns the body element if no positioned ancestor is found
+		 * 
+		 * @param {htmlElement} el 
+		 */
+		function getNearestPositionedAncestor(el) {
+			var parent = el.parentElement;
+			while (parent && parent.nodeName !== "BODY" && window.getComputedStyle(parent).position === "static") {
+				parent = parent.parentElement;
+			}
+			return parent;
 		}
 
 		return {
