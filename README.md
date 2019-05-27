@@ -18,7 +18,7 @@ Expandable.js methods can be passed an optional `config` object to customize the
 
 ### 1. Include the Expandable.js distributable in your project
 
-`expandable.js` can be found in the `/dist/` directory of this repository.
+`expandable.js` can be found in the `/src/` directory of this repository.
 
 ```javascript
 <script type="text/javascript" src="path/expandable.js"></script>
